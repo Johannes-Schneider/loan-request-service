@@ -1,0 +1,23 @@
+version: "3"
+
+services:
+  loan-request-service:
+    build: .
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+  postgres:
+    image: "postgres:16.2-bookworm"
+    environment:
+      POSTGRES_DB: loanrequestservice
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: toor
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
+    driver: local

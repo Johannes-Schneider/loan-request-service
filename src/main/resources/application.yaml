@@ -1,0 +1,35 @@
+server:
+  port: 8080
+
+---
+spring:
+  config:
+    activate:
+      on-profile:
+        - postgres
+  datasource:
+    url: jdbc:postgresql://postgres:5432/loanrequestservice
+    username: postgres
+    password: toor
+    hikari:
+      auto-commit: false
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update
+
+---
+spring:
+  config:
+    activate:
+      on-profile:
+        - h2
+  datasource:
+    url: jdbc:h2:mem:mydb
+    username: sa
+    password: password
+    driverClassName: org.h2.Driver
+  jpa:
+    spring.jpa.database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: update

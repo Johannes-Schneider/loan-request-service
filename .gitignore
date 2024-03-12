@@ -1,0 +1,15 @@
+**/target/
+**/.settings/
+**/.project
+**/.classpath
+**/.DS_Store
+**/*.pyc
+**/*.pmd
+**/*.fpr
+**/*.ipr
+**/*.iws
+**/*.iml
+**/*.idea
+**/*.vscode
+**/.cache
+**/.cache-main

@@ -1,0 +1,106 @@
+openapi: 3.1.0
+info:
+  title: Loan Request Service
+  version: 1.0.0
+  description: This service is responsible for managing loan requests.
+
+paths:
+  /api/v1/loan-requests:
+    post:
+      summary: Creates a new loan request
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoanRequest'
+      responses:
+        200:
+          description: Loan request created successfully
+        400:
+          description: The request body contains invalid data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestResponse'
+        500:
+          description: An internal server error occurred
+
+  /api/v1/loan-requests/sum/{customerId}:
+    get:
+      summary: Retrieves the sum of all loan requests for a customer
+      parameters:
+        - name: customerId
+          in: path
+          required: true
+          schema:
+            type: number
+            format: int64
+            min: 0
+          description: The unique identifier of the customer
+      responses:
+        200:
+          description: The sum of all loan requests for the customer
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoanSumResponse'
+        400:
+          description: The customer id is invalid
+        404:
+          description: The customer does not exist
+        500:
+          description: An internal server error occurred
+
+components:
+  schemas:
+    LoanRequest:
+      type: object
+      properties:
+        id:
+          type: number
+          format: int64
+          min: 0
+          description: The unique identifier of the loan request
+        amount:
+          type: number
+          minimum: 500.00
+          maximum: 12000.50
+          format: double
+          description: The amount of the loan request
+        customerId:
+          type: number
+          format: int64
+          min: 0
+        customerFullName:
+          type: string
+          description: The full name of the customer who requested the loan
+      required:
+        - id
+        - amount
+        - customerId
+        - customerFullName
+
+    LoanSumResponse:
+      type: object
+      properties:
+        customerId:
+          type: number
+          format: int64
+          min: 0
+        sum:
+          type: number
+          format: double
+          description: The sum of all loan requests
+      required:
+        - customerId
+        - sum
+
+    BadRequestResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          description: The error message
+      required:
+        - message
